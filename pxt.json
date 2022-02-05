@@ -1,0 +1,27 @@
+{
+    "name": "Atom joystick receiver and avoid",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "radio": "*",
+        "microphone": "*",
+        "atomrobot": "github:jerabina/pxt-atomrobot#d228d7a7bd90cb9e1dca862b2c2700aff7c9eca2",
+        "vl53l0x-microbit": "github:yyhayami/vl53l0x-microbit#83c4007c26350ac7fcb6a2525c889a1d9d62c744"
+    },
+    "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "targetVersions": {
+        "target": "4.0.17",
+        "targetId": "microbit"
+    },
+    "supportedTargets": [
+        "microbit"
+    ],
+    "preferredEditor": "blocksprj"
+}

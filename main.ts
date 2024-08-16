@@ -47,34 +47,12 @@ function computeMotors (XValue: number, YValue: number) {
     rightMotor = (1 - fPivScale) * nMotPremixR + fPivScale * (0 - nPivSpeed)
     robotAtom.MotorRunAtomStyle(rightMotor, leftMotor)
 }
-input.onButtonPressed(Button.A, function () {
-    robotAtom.MotorStopAll()
-    serial.writeValue("btnA", VL53L0X.readSingleDistance())
-})
-function avoid () {
-    if (VL53L0X.readSingleDistance() > 100) {
-        robotAtom.MotorRunDual(robotAtom.Motors.M1A, 150, robotAtom.Motors.M2B, 150)
-    } else {
-        robotAtom.MotorRunDual(robotAtom.Motors.M1A, -100, robotAtom.Motors.M2B, -100)
-        basic.pause(100)
-        robotAtom.MotorRunDual(robotAtom.Motors.M1A, 0, robotAtom.Motors.M2B, -150)
-        basic.pause(100)
-    }
-}
 radio.onReceivedValue(function (name, value) {
     if (name == "X") {
         x = Math.map(value, 5, 1023, -255, 255)
     }
     if (name == "Y") {
         y = Math.map(value, 5, 1023, -255, 255)
-    }
-    if (name == "E" && value == 1) {
-        mode = mode + 1
-        if (mode > 1) {
-            mode = 0
-        }
-        music.playTone(523, music.beat(BeatFraction.Sixteenth))
-        basic.showString("" + (mode))
     }
 })
 let y = 0
@@ -87,20 +65,14 @@ let nMotPremixR = 0
 let nMotPremixL = 0
 let fPivYLimit = 0
 let COMPUTERANGE = 0
-let mode = 0
-basic.showIcon(IconNames.Heart)
-VL53L0X.init()
+let robotnum = 2
 serial.redirectToUSB()
-mode = 0
 COMPUTERANGE = 256
 fPivYLimit = 32
 let deadZone = 20
-radio.setGroup(1)
+radio.setGroup(robotnum)
+basic.showNumber(robotnum)
 robotAtom.MotorRunAtomStyle(0, 0)
 basic.forever(function () {
-    if (mode == 0) {
-        computeMotors(x, y)
-    } else if (mode == 1) {
-        avoid()
-    }
+    computeMotors(x, y)
 })

@@ -1,3 +1,14 @@
+function led2 () {
+    if (enableLed == 1) {
+        if (robotnum == 1) {
+            robotAtom.rgb().showColor(neopixel.colors(NeoPixelColors.Red))
+        } else if (robotnum == 2) {
+            robotAtom.rgb().showColor(neopixel.colors(NeoPixelColors.Blue))
+        }
+    } else {
+        robotAtom.rgb().showColor(neopixel.colors(NeoPixelColors.Black))
+    }
+}
 // Calculate final mix of Drive and Pivot
 // m_leftMotor  = (1.0 - fPivScale) * nMotPremixL + fPivScale * ( nPivSpeed);
 // /m_rightMotor = (1.0 - fPivScale) * nMotPremixR + fPivScale * (-nPivSpeed);
@@ -54,6 +65,24 @@ radio.onReceivedValue(function (name, value) {
     if (name == "Y") {
         y = Math.map(value, 5, 1023, -255, 255)
     }
+    if (name == "F" && value == 1) {
+        if (robotnum == 1) {
+            music.ringTone(440)
+        } else {
+            music.ringTone(349)
+        }
+    } else if (name == "F" && value == 0) {
+        music.stopAllSounds()
+    }
+    if (name == "E" && value == 1) {
+        if (enableLed == 1) {
+            enableLed = 0
+            led2()
+        } else {
+            enableLed = 1
+            led2()
+        }
+    }
 })
 let y = 0
 let x = 0
@@ -63,13 +92,16 @@ let fPivScale = 0
 let nPivSpeed = 0
 let nMotPremixR = 0
 let nMotPremixL = 0
+let enableLed = 0
 let fPivYLimit = 0
 let COMPUTERANGE = 0
-let robotnum = 2
+let robotnum = 0
+robotnum = 1
 serial.redirectToUSB()
 COMPUTERANGE = 256
 fPivYLimit = 32
 let deadZone = 20
+enableLed = 1
 radio.setGroup(robotnum)
 basic.showNumber(robotnum)
 robotAtom.MotorRunAtomStyle(0, 0)
